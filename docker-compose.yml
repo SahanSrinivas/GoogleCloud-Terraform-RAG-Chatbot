@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  gcp-rag-chatbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gcp-knowledge-assistant
+    ports:
+      - "8080:8080"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-20250514}
+      - PORT=8080
+    volumes:
+      # Persist ChromaDB data
+      - chroma_data:/app/chroma_db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  chroma_data:
