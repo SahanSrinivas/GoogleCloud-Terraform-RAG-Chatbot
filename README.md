@@ -301,7 +301,7 @@ gcloud beta run domain-mappings delete \
 | `CLAUDE_MODEL` | Claude model to use | No (default: claude-sonnet-4-20250514) |
 | `PORT` | Server port | No (default: 8080) |
 
-## Troubleshooting
+## Key Troubleshooting
 
 ### Docker not running
 ```
